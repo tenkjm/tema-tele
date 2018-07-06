@@ -9,6 +9,12 @@ from DataPreprocessor import DataPreprocessor
 import configparser
 import sys
 
+from sklearn.cluster import KMeans
+from sklearn import metrics
+from scipy.spatial.distance import cdist
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 if __name__ == '__main__':
     data_preprocessor = DataPreprocessor()
@@ -17,7 +23,22 @@ if __name__ == '__main__':
     data = data_preprocessor.readFile('neberitrubku_output.csv')
     data = data_preprocessor.cleanData(data)
 
-    text_processor.make_clusters(data)
+   
+    sse = {}
+    for k in range(1, 15):
+        kmeans = text_processor.make_clusters(data, k)
+        #data["clusters"] = kmeans.labels_
+        #print(data["clusters"])
+        sse[k] = kmeans.inertia_ # Inertia: Sum of distances of samples to their closest cluster center
+    plt.figure()
+    plt.plot(list(sse.keys()), list(sse.values()))
+    plt.xlabel("Number of cluster")
+    plt.ylabel("SSE")
+    plt.show()
+
+
+
+    #text_processor.make_clusters(data, )
     raw_input()
     
     
