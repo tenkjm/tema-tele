@@ -5,7 +5,6 @@ from json import JSONEncoder
 import json
 from TextProcessor import TextProcessor
 from DataPreprocessor import DataPreprocessor
-
 import configparser
 import sys
 
@@ -14,6 +13,8 @@ from sklearn import metrics
 from scipy.spatial.distance import cdist
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 if __name__ == '__main__':
@@ -36,11 +37,12 @@ if __name__ == '__main__':
     plt.ylabel("SSE")
     plt.show()
 
+    ok_model=text_processor.make_clusters_and_show_results(data, 5)
+    vect = TfidfVectorizer()  
+    X = vect.fit_transform(data)
 
-
-    #text_processor.make_clusters(data, )
-    raw_input()
-    
+    for i in range (0, len(data)-1):
+        print data[i] , " cluster = ", ok_model.predict(X[i])
     
 
 

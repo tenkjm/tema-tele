@@ -16,5 +16,5 @@ class DataPreprocessor:
             data.append(descriptions)
         return data
     def cleanData(self, data):
-        return [re.sub('['+string.punctuation+']', '', row) for row in data]
+        return [re.sub('['+string.punctuation+']', ' ', row).lower() for row in data]
 
